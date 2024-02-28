@@ -1,6 +1,6 @@
 const express = require("express");
-const rootRouter = require("./api/index");
-
 const app = express();
+const mainRouter = require("./routes/index")
 
-app.use("/api/v1", rootRouter);
+
+app.use("/ap1/v1", mainRouter)
