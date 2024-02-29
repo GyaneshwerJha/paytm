@@ -3,22 +3,25 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("./config");
 
 const authMiddleware = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+    // take token from headers.authorization
+    const auth = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith('Bearer')) {
-        return res.status(403).json({})
+    // check if it is there or start with Bearer
+    if (!auth || !auth.startsWith('Bearer ')) {
+        return res.status(403).json({ message: "Invalid headers" });
     }
 
-    const token = authHeader.split(' ')[1]
+    // split Bearer nd token
+    const token = auth.split(' ')[1];
 
+    // verify using jwt.verify
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.userId = decoded.userId;
-
+        const decode = jwt.verify(token, JWT_SECRET);
+        req.userId = decode.userId;
         next();
     }
     catch (err) {
-        return res.status(403).json({});
+        return res.status(403).json({message: "Verification failed"})
     }
 };
 

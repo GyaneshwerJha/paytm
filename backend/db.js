@@ -34,10 +34,32 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
+
+const accountSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        // it ensures ki i can not put anythign in account table that doesnot 
+        // have corresponding user here only with user wiht certain id exists will be able to store 
+        ref: 'User',
+        required: true
+    },
+    balance: {
+        type: Number,
+        required: true
+    }
+})
+
+
+
+
+
+
+
 // create model
 const User = mongoose.model('User', UserSchema);
-
+const Account = mongoose.model('Account', accountSchema);
 // export model
 module.exports = {
-    User
+    User,
+    Account
 }
